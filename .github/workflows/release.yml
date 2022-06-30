@@ -1,0 +1,40 @@
+name: "Build & Release"
+
+on: push
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: get-npm-version
+      id: package-version
+      uses: martinbeentjes/npm-get-version-action@main
+    # ${{ steps.package-version.outputs.current-version}}
+    
+    - name: "Setup node"
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+          
+    - name: "Build"
+      run: |
+        npm i pkg -g
+        npm i
+        npm install esbuild -g
+        esbuild main.js --bundle --outfile=out.js --platform=node
+        pkg -t node16-win-x64,node16-macos-x64 out.js --output Disenchanter
+        echo ::set-output name=exit_code::$?
+
+    - name: "Release"
+      if: steps.build.outputs.exit_code == 0
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "v${{ steps.package-version.outputs.current-version}}"
+        title: "Disenchanter v${{ steps.package-version.outputs.current-version}}"
+        files: |
+          Disenchanter-win.exe
+          Disenchanter-macos
