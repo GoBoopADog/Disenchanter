@@ -25,7 +25,8 @@ jobs:
         npm i
         npm install esbuild -g
         esbuild main.js --bundle --outfile=out.js --platform=node
-        pkg -t node16-win-x64,node16-macos-x64 out.js --output Disenchanter
+        pkg -t node16-win-x64,node16-macos-x64,node16-linux-x64 out.js --output Disenchanter
+        pkg -t node16-macos-arm64 out.js --output Disenchanter-macos-arm
         echo ::set-output name=exit_code::$?
 
     - name: "Release"
@@ -38,3 +39,5 @@ jobs:
         files: |
           Disenchanter-win.exe
           Disenchanter-macos
+          Disenchanter-macos-arm
+          Disenchanter-linux
