@@ -39,6 +39,7 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "v${{ steps.package-version.outputs.current-version}}"
         title: "Disenchanter v${{ steps.package-version.outputs.current-version}}"
+        prerelease: false
         files: |
           Disenchanter-win.exe
           Disenchanter-macos
