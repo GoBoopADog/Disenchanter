@@ -11,7 +11,7 @@ lcu.wsEvents.on('connect', async () => {
 
   for (const key in loot) {
     if (loot[key].disenchantValue == 0) continue;
-    if (loot[key].itemDesc == "" || loot[key].itemDesc == null) {
+    if (!loot[key].itemDesc) {
       console.log(`${loot[key].lootName} (x${loot[key].count}): ${(loot[key].disenchantLootName == 'CURRENCY_champion') ? '\033[36m' : '\033[33m'}${loot[key].disenchantValue * loot[key].count} ${(loot[key].disenchantLootName == 'CURRENCY_champion') ? '\033[36mBE\033[0m' : '\033[33mOE\033[0m'}`)
     } else {
       console.log(`${loot[key].itemDesc} (x${loot[key].count}): ${(loot[key].disenchantLootName == 'CURRENCY_champion') ? '\033[36m' : '\033[33m'}${loot[key].disenchantValue * loot[key].count} ${(loot[key].disenchantLootName == 'CURRENCY_champion') ? '\033[36mBE\033[0m' : '\033[33mOE\033[0m'}`)
